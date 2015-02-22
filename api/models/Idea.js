@@ -6,9 +6,45 @@
 */
 
 module.exports = {
-	tableName: 'ideas',
+  schema: true,
+  tableName: 'ideas',
   attributes: {
-
+    title: {
+      type: 'string',
+      maxLength: 200,
+      minLength: 1,
+      required: true,
+    },
+    body: {
+      type: 'string',
+      maxLength: 10000,
+      minLength: 0,
+      defaultsTo: ''
+    },
+    image: {
+      type: 'string',
+      url: true,
+    },
+    comments: {
+      collection: 'comment',
+      via: 'idea',
+    },
+    author: {
+      model: 'user',
+      via: 'ideas',
+    },
+    votes: {
+      collection: 'vote',
+      via: 'idea',
+    },
+    // toJSON: toJSON
   },
 };
 
+function toJSON(){
+  var idea = this.toObject();
+  idea.id = idea._id;
+  delete idea._id;
+  delete idea.__v;
+  return idea;
+}
