@@ -19,6 +19,10 @@ module.exports = {
   		required: true,
   		unique: true,
   	},
+    password: {
+      type: 'string',
+      required: true,
+    },
   	about: {
   		type: 'string',
   		maxLength: 1000,
