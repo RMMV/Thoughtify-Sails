@@ -15,14 +15,14 @@ module.exports = {
 			User.findOne({username: request.body.user.username})
 				.then(function(user){
 					if (! user) {
-						response.end('User does not exist.');
+						response.status(401).end('User does not exist.');
 						return;
 					}
 
 					return user.authenticate(request.body.user.password)
 						.then(function(isMatch) {
 							if (! isMatch) {
-								response.end('Invalid password.');
+								response.status(401).end('Invalid password.');
 								return;
 							} 
 
