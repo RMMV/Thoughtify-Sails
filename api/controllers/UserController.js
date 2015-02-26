@@ -9,17 +9,17 @@ var secret = Secret['jwt-secret'];
 
 module.exports = {
 	login: function(request, response, next) {
-		if (request.body) {
+		if (request.body && request.body.user) {
 			var expires = 60*60*24*7*1000 + Date.now();
 
-			User.findOne({username: request.body.username})
+			User.findOne({username: request.body.user.username})
 				.then(function(user){
 					if (! user) {
 						response.end('User does not exist.');
 						return;
 					}
 
-					return user.authenticate(request.body.password)
+					return user.authenticate(request.body.user.password)
 						.then(function(isMatch) {
 							if (! isMatch) {
 								response.end('Invalid password.');
