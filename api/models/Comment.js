@@ -25,14 +25,5 @@ module.exports = {
   		collection: 'vote',
   		via: 'comment',
   	},
-  	// toJSON: toJSON
   },
 };
-
-function toJSON() {
-	var comment = this.toObject();
-	comment.id = comment._id;
-	delete comment._id;
-	delete comment.__v;
-	return comment;
-}

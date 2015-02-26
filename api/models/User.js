@@ -52,8 +52,7 @@ module.exports = {
 		},
 		authenticate: function(password) {
 			return bcrypt.compare$(password, this.password);
-		}
-		// toJSON: toJSON
+		},
 	},
 
 	beforeCreate: function(values, cb) {
@@ -73,10 +72,3 @@ module.exports = {
 			});
 	}
 };
-
-function toJSON() {
-	var user = this.toObject();
-	console.log(user);
-	delete user.__v;
-	return user;
-}

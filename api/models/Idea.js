@@ -37,14 +37,5 @@ module.exports = {
       collection: 'vote',
       via: 'idea',
     },
-    // toJSON: toJSON
   },
 };
-
-function toJSON(){
-  var idea = this.toObject();
-  idea.id = idea._id;
-  delete idea._id;
-  delete idea.__v;
-  return idea;
-}
