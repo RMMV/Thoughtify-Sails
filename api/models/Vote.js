@@ -25,7 +25,6 @@ module.exports = {
   		type: 'integer',
   		enum: [1, 5, -1]
   	},
-  	// toJSON: toJSON
   }
 };
 
