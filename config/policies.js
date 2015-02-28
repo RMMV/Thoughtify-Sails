@@ -19,6 +19,17 @@
 
 module.exports.policies = {
 
+    '*': ['tokenAuth'],
+
+    /*  Registered users and those who are trying to log in shouldn't have to
+        go through tokenAuth. For this reason, we enable user access to
+        the login and create actions of the User controller.
+    */
+    UserController: {
+        'login': true,
+        'create': true
+    }
+
   /***************************************************************************
   *                                                                          *
   * Default policy for all controllers and actions (`true` allows public     *
