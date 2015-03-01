@@ -18,6 +18,11 @@ describe('Policy token-auth', function() {
                 return new Promise(function(resolve){
                     resolve({id: id});
                 });
+            },
+            find: function(){
+                return new Promise(function(r){
+                    resolve([{id: id}]);
+                });
             }
         }
 
