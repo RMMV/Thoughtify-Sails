@@ -4,4 +4,14 @@ module.exports = {
         decodeFailure: 'Invalid token; decode failed.',
         tokenExpired: 'Authentication token has expired, please re-login.',
     },
+    controllers: {
+        User: {
+            login: {
+                notInDB: 'User does not exist',
+                invalidPassword: 'Invalid password.',
+                generic: 'Failed to login',
+                noUserInRequest: 'No \'user\' root object in request body.',
+            }
+        }
+    }
 }

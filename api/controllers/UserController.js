@@ -5,10 +5,11 @@
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
 var jwt = require('jwt-simple');
-var secret = Secret['jwt-secret'];
 
 module.exports = {
 	login: function(request, response, next) {
+
+		var secret = Secret['jwt-secret'];
 
 		if (request.body && request.body.user) {
 			var expires = 60*60*24*7*1000 + Date.now();
@@ -16,14 +17,14 @@ module.exports = {
 			User.findOne({username: request.body.user.username})
 				.then(function(user){
 					if (! user) {
-						response.unauthorized({ reason: 'User does not exist.'});
+						response.unauthorized({ reason: Failure.controllers.User.login.notInDB});
 						return;
 					}
 
 					return user.authenticate(request.body.user.password)
 						.then(function(isMatch) {
 							if (! isMatch) {
-								response.unauthorized({ reason: 'Invalid password.'});
+								response.unauthorized({ reason: Failure.controllers.User.login.invalidPassword});
 								return;
 							}
 
@@ -37,7 +38,7 @@ module.exports = {
 				})
 				.catch(function(error) {
 					response.serverError({
-						title: 'Failed to login.',
+						title: Failure.controllers.User.login.generic,
 						reason: error.message
 					});
 				})
@@ -49,7 +50,7 @@ module.exports = {
 				});
 		}
 		else {
-			response.badRequest({reason: 'No \'user\' root object in request body.'});
+			response.badRequest({reason: Failure.controllers.User.login.noUserInRequest});
 			return;
 		}
 	}
