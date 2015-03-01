@@ -1,7 +1,7 @@
 var Sails = require('sails').Sails;
 var sails;
 
-beforeEach(function(done) {
+beforeEach('Lift a new sails server at port 1338.', function(done) {
 
 	var app = new Sails();
 	app.lift({
@@ -29,10 +29,6 @@ beforeEach(function(done) {
 	}
 });
 
-afterEach(function() {
+afterEach('Lower our sails server.', function() {
 	sails.lower();
-});
-
-after(function(){
-
 });
