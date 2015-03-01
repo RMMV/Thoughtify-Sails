@@ -1,9 +1,10 @@
 var Sails = require('sails').Sails;
-var sails;
+var path = require('path');
 
 beforeEach('Lift a new sails server at port 1338.', function(done) {
 
 	var app = new Sails();
+
 	app.lift({
 		connections: {
 	        testDB: {
@@ -24,11 +25,14 @@ beforeEach('Lift a new sails server at port 1338.', function(done) {
 			return;
 		}
 
-		sails = server;
+		/* 	Assign globals to make testing easier. */
+		GLOBAL.app = server;
+		GLOBAL.__root = path.join(__dirname, '..');
+
 		done(err, sails);
 	}
 });
 
 afterEach('Lower our sails server.', function() {
-	sails.lower();
+	app.lower();
 });
