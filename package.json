@@ -33,9 +33,9 @@
   },
   "scripts": {
     "start": "node app.js",
+    "lift": "nodemon --exec \"sails lift\" -q",
     "debug": "node debug app.js",
-    "test": "make test",
-    "test-w": "make test-w"
+    "test": "make test"
   },
   "main": "app.js",
   "repository": {
