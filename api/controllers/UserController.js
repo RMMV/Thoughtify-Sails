@@ -4,6 +4,20 @@
  * @description :: Server-side logic for managing users
  * @help        :: See http://links.sailsjs.org/docs/controllers
  */
+
+/**
+ * 	Algorithm:
+ *
+ * 	assertion 0: response body exists
+ * 	assertion 1: body has a user object
+ * 	assertion 2: user has a username
+ *	lookup the user in the database using the username
+ *	assertion 3: user found
+ *	assertion 4: user has a password
+ *	assertion 5: user''s password is valid
+ *	make a jwt with the user''s id and an expiry date set to 7 days from today
+ *	return web token, done
+ */
 var jwt = require('jwt-simple');
 
 module.exports = {
@@ -12,11 +26,14 @@ module.exports = {
 		var secret = Secret['jwt-secret'];
 
 		if (request.body && request.body.user) {
+
 			var expires = 60*60*24*7*1000 + Date.now();
 
 			if (request.body.user.username && request.body.user.password) {
+
 				User.findOne({username: request.body.user.username})
 					.then(function(user){
+						
 						if (! user) {
 							response.unauthorized({ reason: Failure.controllers.User.login.notInDB});
 							return;
@@ -44,10 +61,12 @@ module.exports = {
 						});
 					})
 					.then(function(token) {
-						token && response.ok({
-							token: token,
-							expires: expires
-						});
+						if (token) {
+							response.ok({
+								token: token,
+								expires: expires
+							})
+						};
 					});
 			}
 			else {

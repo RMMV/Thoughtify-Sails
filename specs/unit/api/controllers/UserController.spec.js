@@ -12,23 +12,23 @@ describe('UserController', function() {
 			GLOBAL.User = {
 				find: function(){
 					return new Promise(function(fullfill){
-						fullfill(obj);
+						fullfill([obj]);
 					});
 				},
 				findOne: function(){
 					return new Promise(function(fullfill){
-						fullfille([obj])
+						fullfill(obj);
 					});
 				},
 				authenticate: function(){
 					return auth;
 				}
-			}
+			};
 		}
 
 		beforeEach('setup the globals', function(){
 			configUserMock({id:1}, true);
-			GLOBAL.Secret = {'jwt-secret': 'foobar'}
+			GLOBAL.Secret = {'jwt-secret': 'foobar'};
 		});
 
 		beforeEach('setup the response and next mocks', function(){
@@ -59,6 +59,37 @@ describe('UserController', function() {
 			expect(next.called).to.be(false);
 			expect(response.badRequest.called).to.be(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
+		});
+
+		describe(', after looking up the user in the database,', function(){
+
+			it('should fail if the user was not found', function(done){
+
+				/**
+				 * Failure in this test means timing out, sadly.
+				 * Might need to reorganize the code to better test this.
+				 */
+
+				request = {
+					body:{
+						user:{
+							username: 1,
+							password: 1
+						}
+					}
+				};
+
+				response = {
+					unauthorized: function(data){
+						expect(data).to.eql({reason: Failure.controllers.User.login.notInDB});
+						done();
+					}
+				};
+
+				configUserMock(null, true);
+				controller.login(request, response, next);
+			});
+
 		});
 
 	});
