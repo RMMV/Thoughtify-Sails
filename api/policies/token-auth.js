@@ -8,22 +8,15 @@
  *
  */
 var jwt = require('jwt-simple');
-var secret = Secret['jwt-secret'];
 
 module.exports = function(request, response, next) {
 
-	/*	A special check to let registration requests through. Check config/policies.js
-		for more information.
-	*/
-	// if (request.url === '/users' && String(request.method).toLowerCase() === 'post') {
-	// 	next();
-	// 	return;
-	// }
-
 	var token = request.headers['x-access-token'];
+	var secret = Secret['jwt-secret'];
 
 	if (token) {
 		try {
+
 			var decoded = jwt.decode(token, secret);
 
 			if (decoded.exp <= Date.now()) {

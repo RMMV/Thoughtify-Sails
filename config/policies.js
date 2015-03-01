@@ -19,7 +19,7 @@
 
 module.exports.policies = {
 
-    '*': ['tokenAuth'],
+    '*': ['token-auth'],
 
     /*  Registered users and those who are trying to log in shouldn't have to
         go through tokenAuth. For this reason, we enable user access to
