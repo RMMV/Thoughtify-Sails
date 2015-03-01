@@ -11,6 +11,9 @@ beforeEach(function(done) {
 	        }
 	    },
 		connection: 'testDB',
+		log:{
+			noShip: true,
+		},
 		port: 1338
 	}, callback);
 
@@ -22,7 +25,6 @@ beforeEach(function(done) {
 		}
 
 		sails = server;
-		console.log('Welcome to Sails! Happy testing.');
 		done(err, sails);
 	}
 });
