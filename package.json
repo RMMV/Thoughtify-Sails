@@ -33,7 +33,7 @@
   },
   "scripts": {
     "start": "node app.js",
-    "lift": "nodemon --exec \"sails lift\" -q",
+    "lift": "./node_modules/.bin/nodemon --exec \"./node_modules/.bin/sails lift\" -q",
     "debug": "node debug app.js",
     "test": "make test"
   },
