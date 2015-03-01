@@ -16,14 +16,14 @@ module.exports = {
 			User.findOne({username: request.body.user.username})
 				.then(function(user){
 					if (! user) {
-						response.forbidden({ reason: 'User does not exist.'});
+						response.unauthorized({ reason: 'User does not exist.'});
 						return;
 					}
 
 					return user.authenticate(request.body.user.password)
 						.then(function(isMatch) {
 							if (! isMatch) {
-								response.forbidden({ reason: 'Invalid password.'});
+								response.unauthorized({ reason: 'Invalid password.'});
 								return;
 							}
 
