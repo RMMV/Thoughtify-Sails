@@ -41,5 +41,10 @@
     "url": "git://github.com/ramanpreet/Thoughtify-API.git"
   },
   "author": "ramanpreet",
-  "license": ""
+  "license": "",
+  "devDependencies": {
+    "chai": "^2.1.0",
+    "expect.js": "^0.3.1",
+    "mocha": "^2.1.0"
+  }
 }
