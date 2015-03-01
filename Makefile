@@ -6,6 +6,6 @@ test:
 	@NODE_ENV=test ./node_modules/.bin/mocha --reporter ${REPORTER} --growl ${UNIT_TESTS}
 
 test-w:
-	@NODE_ENV=test ./node_modules/.bin/nodemon -e spec.js -q --exec './node_modules/.bin/mocha --reporter ${REPORTER} --growl $$(find ./specs -iname "*.spec.js" | tr "\n" " ")'
+	@NODE_ENV=test ./node_modules/.bin/nodemon -e js -q --exec './node_modules/.bin/mocha --reporter ${REPORTER} --growl $$(find ./specs -iname "*.spec.js" | tr "\n" " ")'
 
 .PHONY: test test-w
