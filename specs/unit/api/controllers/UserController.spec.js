@@ -40,11 +40,25 @@ describe('UserController', function() {
 			controller = app.controllers.user;
 		});
 
-		it('should fail if the request has no user object', function(){
+		it('should fail if the request has no body', function(){
 			controller.login({}, response, next);
 			expect(next.called).to.be(false);
 			expect(response.badRequest.called).to.be(true);
-			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.noUserInRequest}]);
+			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.missingUser}]);
+		});
+
+		it('should fail if the request\'s body has no user', function(){
+			controller.login({body:null}, response, next);
+			expect(next.called).to.be(false);
+			expect(response.badRequest.called).to.be(true);
+			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.missingUser}]);
+		});
+
+		it('should fail if the user has no username', function(){
+			controller.login({body:{user:{}}}, response, next);
+			expect(next.called).to.be(false);
+			expect(response.badRequest.called).to.be(true);
+			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
 		});
 
 	});

@@ -8,9 +8,10 @@ module.exports = {
         User: {
             login: {
                 notInDB: 'User does not exist',
+                invalidUser: 'The user needs both a username and a password to login.',
                 invalidPassword: 'Invalid password.',
                 generic: 'Failed to login',
-                noUserInRequest: 'No \'user\' root object in request body.',
+                missingUser: 'No \'user\' root object in request body.',
             }
         }
     }
