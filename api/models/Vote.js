@@ -8,23 +8,23 @@
 module.exports = {
 	schema: true,
 	tableName: 'votes',
-  attributes: {
-  	idea: {
-  		model: 'idea',
-  		via: 'votes',
-  	},
-  	comment: {
-  		model: 'comment',
-  		via: 'votes',
-  	},
-  	caster: {
-  		model: 'user',
-  		via: 'votes',
-  	},
-  	value: {
-  		type: 'integer',
-  		enum: [1, 5, -1]
-  	},
+	attributes: {
+	idea: {
+		model: 'idea',
+		via: 'votes',
+	},
+	comment: {
+		model: 'comment',
+		via: 'votes',
+	},
+	caster: {
+		model: 'user',
+		via: 'votes',
+	},
+	value: {
+		type: 'integer',
+		enum: [1, 5, -1]
+	},
   }
 };
 

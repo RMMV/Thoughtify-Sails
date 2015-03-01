@@ -8,22 +8,22 @@
 module.exports = {
 	schema: true,
 	tableName: 'comments',
-  attributes: {
-  	body: {
-  		type: 'string',
-  		defaultsTo: '',
-  	},
-  	idea: {
-  		model: 'idea',
-  		via: 'comments',
-  	},
-  	author: {
-  		model: 'user',
-  		via: 'comments',
-  	},
-  	votes: {
-  		collection: 'vote',
-  		via: 'comment',
-  	},
-  },
+	attributes: {
+		body: {
+			type: 'string',
+			defaultsTo: '',
+		},
+		idea: {
+			model: 'idea',
+			via: 'comments',
+		},
+		author: {
+			model: 'user',
+			via: 'comments',
+		},
+		votes: {
+			collection: 'vote',
+			via: 'comment',
+		},
+	},
 };
