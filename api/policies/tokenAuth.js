@@ -28,7 +28,7 @@ module.exports = function(request, response, next) {
 
 			if (decoded.exp <= Date.now()) {
 	    		// expired token, let user know in error
-				response.unauthorized({reason: 'Authentication token has expired'});
+				response.unauthorized({reason: Failure.authentication.tokenExpired});
 	    		return;
 	    	}
 	    	else {
@@ -43,12 +43,13 @@ module.exports = function(request, response, next) {
 
 		} catch (err) {
 			// reject request
-			response.unauthorized({ reason: "Token decode failed."});
+			response.unauthorized({ reason: Failure.authentication.decodeFailure});
 	    	return;
-	  	}
+	    }
+
 	} else {
 		// reject request
-		response.unauthorized({reason: 'No Authentication Token. Please send a request with an \'x-access-token\' header.'});
+		response.unauthorized({reason: Failure.authentication.noToken});
 		return;
 	}
 };
