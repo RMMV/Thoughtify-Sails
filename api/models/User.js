@@ -58,16 +58,13 @@ module.exports = {
 	beforeCreate: function(values, cb) {
 		bcrypt.genSalt$(10)
 			.then(function(salt) {
-				console.log(salt);
 				return bcrypt.hash$(values.password, salt);
 			})
 			.then(function(hash) {
-				console.log(hash);
 				values.password = hash;
 				cb();
 			})
 			.catch(function(error) {
-				console.log(error);
 				cb(error);
 			});
 	}
