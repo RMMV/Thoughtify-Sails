@@ -33,6 +33,13 @@ beforeEach('Lift a new sails server at port 1338.', function(done) {
 	}
 });
 
-afterEach('Lower our sails server.', function() {
-	app.lower();
+afterEach('Lower our sails server.', function(done) {
+	app.lower(function(){
+		// sails attaches these listeners when the application starts, no need for them when
+		// after we've successfully lowered the application
+		process.removeAllListeners();
+		delete GLOBAL.app;
+		done();
+	});
+
 });
