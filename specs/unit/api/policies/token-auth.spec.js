@@ -1,5 +1,4 @@
 var supertest = require('supertest');
-var expect = require('expect.js');
 var api = supertest('http://localhost:1338');
 var jwt = require('jwt-simple');
 var sinon = require('sinon');
@@ -59,9 +58,9 @@ describe('Policy token-auth', function() {
 
             it('will reject the user\'s request because of decode failure', function(){
                 policy(request, response, next);
-                expect(response.unauthorized.calledOnce).to.be(true);
+                expect(response.unauthorized.calledOnce).to.equal(true);
                 expect(response.unauthorized.getCall(0).args).to.eql([{reason: Failure.authentication.decodeFailure}]);
-                expect(next.called).to.be(false);
+                expect(next.called).to.equal(false);
             });
         });
 
@@ -102,9 +101,9 @@ describe('Policy token-auth', function() {
                 Investigate this issue later but for the time being,
                 just use the following pattern:
             */
-            expect(response.unauthorized.calledOnce).to.be(true);
+            expect(response.unauthorized.calledOnce).to.equal(true);
             expect(response.unauthorized.getCall(0).args).to.eql([{reason: Failure.authentication.noToken}]);
-            expect(next.called).to.be(false);
+            expect(next.called).to.equal(false);
         });
 
     });
