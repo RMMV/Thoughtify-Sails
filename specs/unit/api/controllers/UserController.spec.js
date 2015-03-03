@@ -2,32 +2,48 @@ var supertest = require('supertest');
 var expect = require('expect.js');
 var api = supertest('http://localhost:1338');
 var sinon = require('sinon');
+var jwt = require('jwt-simple');
 
 describe('UserController', function() {
 
 	describe('#login', function(){
 
 		var request, response, next, controller;
-		function configUserMock(obj, auth){
+
+		function configUserStub(obj, auth){
+
+			var user = null;
+
+			if (obj) {
+				user = {
+					authenticate: function() {
+						return new Promise(function(fullfill){
+							fullfill(auth);
+						});
+					}
+				};
+
+				Object.keys(obj).forEach(function(key){
+					user[key] = obj[key];
+				});
+			}
+
 			GLOBAL.User = {
 				find: function(){
 					return new Promise(function(fullfill){
-						fullfill([obj]);
+						fullfill([user]);
 					});
 				},
 				findOne: function(){
 					return new Promise(function(fullfill){
-						fullfill(obj);
+						fullfill(user);
 					});
-				},
-				authenticate: function(){
-					return auth;
 				}
 			};
 		}
 
 		beforeEach('setup the globals', function(){
-			configUserMock({id:1}, true);
+			configUserStub({id:1}, true);
 			GLOBAL.Secret = {'jwt-secret': 'foobar'};
 		});
 
@@ -55,7 +71,14 @@ describe('UserController', function() {
 		});
 
 		it('should fail if the user has no username', function(){
-			controller.login({body:{user:{}}}, response, next);
+			controller.login({body:{user:{password: 'yolo'}}}, response, next);
+			expect(next.called).to.be(false);
+			expect(response.badRequest.called).to.be(true);
+			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
+		});
+
+		it('should fail if the user has no password', function(){
+			controller.login({body:{user:{username: 'yolo'}}}, response, next);
 			expect(next.called).to.be(false);
 			expect(response.badRequest.called).to.be(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
@@ -63,33 +86,63 @@ describe('UserController', function() {
 
 		describe(', after looking up the user in the database,', function(){
 
+			beforeEach('setup the request', function(){
+				request = {
+					body:{
+						user:{
+							username: 1,
+							password: 1,
+						}
+					}
+				};
+			});
+
 			it('should fail if the user was not found', function(done){
 
+				response = {
+					unauthorized: function(args){
+						expect(args).to.eql({ reason: Failure.controllers.User.login.notInDB});
+						done();
+					}
+				}
+
+				configUserStub(null, false);
+				controller.login(request, response, next);
+
+
+			});
+
+			it('should fail if the user\'s password was incorrect', function(done){
 				/**
 				 * Failure in this test means timing out, sadly.
 				 * Might need to reorganize the code to better test this.
 				 */
 
-				request = {
-					body:{
-						user:{
-							username: 1,
-							password: 1
-						}
-					}
-				};
-
 				response = {
-					unauthorized: function(data){
-						expect(data).to.eql({reason: Failure.controllers.User.login.notInDB});
+					unauthorized: function(args){
+						expect(args).to.eql({ reason: Failure.controllers.User.login.invalidPassword});
 						done();
 					}
 				};
 
-				configUserMock(null, true);
+				configUserStub({}, false);
 				controller.login(request, response, next);
+
 			});
 
+			it('should return a jwt if the user\'s password was correct', function(done){
+
+				response = {
+					ok: function(res){
+						expect(jwt.decode(res.token, Secret['jwt-secret']).iss).to.be(10);
+						done();
+					}
+				};
+
+				configUserStub({id: 10}, true);
+				controller.login(request, response, next);
+
+			});
 		});
 
 	});
