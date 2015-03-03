@@ -1,5 +1,4 @@
 var supertest = require('supertest');
-var expect = require('expect.js');
 var api = supertest('http://localhost:1338');
 var sinon = require('sinon');
 var jwt = require('jwt-simple');
@@ -58,29 +57,29 @@ describe('UserController', function() {
 
 		it('should fail if the request has no body', function(){
 			controller.login({}, response, next);
-			expect(next.called).to.be(false);
-			expect(response.badRequest.called).to.be(true);
+			expect(next.called).to.equal(false);
+			expect(response.badRequest.called).to.equal(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.missingUser}]);
 		});
 
 		it('should fail if the request\'s body has no user', function(){
 			controller.login({body:null}, response, next);
-			expect(next.called).to.be(false);
-			expect(response.badRequest.called).to.be(true);
+			expect(next.called).to.equal(false);
+			expect(response.badRequest.called).to.equal(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.missingUser}]);
 		});
 
 		it('should fail if the user has no username', function(){
 			controller.login({body:{user:{password: 'yolo'}}}, response, next);
-			expect(next.called).to.be(false);
-			expect(response.badRequest.called).to.be(true);
+			expect(next.called).to.equal(false);
+			expect(response.badRequest.called).to.equal(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
 		});
 
 		it('should fail if the user has no password', function(){
 			controller.login({body:{user:{username: 'yolo'}}}, response, next);
-			expect(next.called).to.be(false);
-			expect(response.badRequest.called).to.be(true);
+			expect(next.called).to.equal(false);
+			expect(response.badRequest.called).to.equal(true);
 			expect(response.badRequest.getCall(0).args).to.eql([{reason: Failure.controllers.User.login.invalidUser}]);
 		});
 
@@ -134,7 +133,7 @@ describe('UserController', function() {
 
 				response = {
 					ok: function(res){
-						expect(jwt.decode(res.token, Secret['jwt-secret']).iss).to.be(10);
+						expect(jwt.decode(res.token, Secret['jwt-secret']).iss).to.equal(10);
 						done();
 					}
 				};

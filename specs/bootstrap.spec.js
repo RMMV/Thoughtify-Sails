@@ -1,5 +1,12 @@
 var Sails = require('sails').Sails;
 var path = require('path');
+var chai = require('chai');
+
+// chai.js configuration for promises
+chai.use(require('chai-as-promised'));
+
+// configuring globals
+GLOBAL.expect = chai.expect;
 
 beforeEach('Lift a new sails server at port 1338.', function(done) {
 
