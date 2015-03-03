@@ -11,9 +11,9 @@
  * 	assertion 0: response body exists
  * 	assertion 1: body has a user object
  * 	assertion 2: user has a username
+ *	assertion 3: user has a password
  *	lookup the user in the database using the username
- *	assertion 3: user found
- *	assertion 4: user has a password
+ *	assertion 4: user found
  *	assertion 5: user''s password is valid
  *	make a jwt with the user''s id and an expiry date set to 7 days from today
  *	return web token, done
@@ -33,7 +33,7 @@ module.exports = {
 
 				User.findOne({username: request.body.user.username})
 					.then(function(user){
-						
+
 						if (! user) {
 							response.unauthorized({ reason: Failure.controllers.User.login.notInDB});
 							return;
@@ -41,6 +41,7 @@ module.exports = {
 
 						return user.authenticate(request.body.user.password)
 							.then(function(isMatch) {
+
 								if (! isMatch) {
 									response.unauthorized({ reason: Failure.controllers.User.login.invalidPassword});
 									return;
