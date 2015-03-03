@@ -38,10 +38,8 @@ module.exports = {
 							response.unauthorized({ reason: Failure.controllers.User.login.notInDB});
 							return;
 						}
-
 						return user.authenticate(request.body.user.password)
 							.then(function(isMatch) {
-
 								if (! isMatch) {
 									response.unauthorized({ reason: Failure.controllers.User.login.invalidPassword});
 									return;

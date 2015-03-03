@@ -16,6 +16,9 @@ describe('UserController', function() {
 			if (obj) {
 				user = {
 					authenticate: function() {
+						if (auth instanceof Promise) {
+							return auth;
+						}
 						return new Promise(function(fullfill){
 							fullfill(auth);
 						});
@@ -139,6 +142,21 @@ describe('UserController', function() {
 				};
 
 				configUserStub({id: 10}, true);
+				controller.login(request, response, next);
+
+			});
+
+			it('should reject the user if something goes wrong in the authentication procedure', function(done){
+
+				response = {
+					serverError: function(res){
+						expect(res.title).to.equal(Failure.controllers.User.login.generic);
+						expect(res.reason).to.equal('error!');
+						done();
+					}
+				};
+
+				configUserStub({id: 10}, new Promise(function(f,r){r({message:'error!'});}));
 				controller.login(request, response, next);
 
 			});
