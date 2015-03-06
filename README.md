@@ -1,6 +1,5 @@
 # Thoughtify-API
-
-a [Sails](http://sailsjs.org) application
+**Before starting the application, make sure you've run through the configuration steps outlined below.**
 
 ## Starting Application
 ```bash
@@ -12,7 +11,7 @@ $ npm run-script lift
 ```
 
 ## Running tests
-All the tests are run using local installation of ```mocha``` along with ```chai.js```.
+All the tests are run using a local installation of ```mocha``` along with ```chai.js```.
 ```bash
 # one time
 $ npm test
@@ -22,6 +21,10 @@ $ make test-w
 ```
 
 <br>
+# Configuration
+## JWT secret
+Create a file called ```jwt-secret.js``` that exports a string of your choice inside ```/secrets```.
+
 ## Setting up SSL
 Run following command and place generated keys inside ```/config/ssl```:
 
