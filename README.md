@@ -25,6 +25,11 @@ $ make test-w
 ## JWT secret
 Create a file called ```jwt-secret.js``` that exports a string of your choice inside ```/secrets```.
 
+```JavaScript
+// example file
+module.exports = "my arbitrary string";
+```
+
 ## Setting up SSL
 Run following command and place generated keys inside ```/config/ssl```:
 
@@ -47,7 +52,7 @@ module.exports = {
 };
 
 ```
-<br>
+
 Start the app and behold the protocol in ```https://localhost:1337```!:
 ```bash
 info: Starting app...
