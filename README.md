@@ -38,7 +38,7 @@ Run following command and place generated keys inside ```/config/ssl```:
 $ openssl req -x509 -newkey rsa:2048 -keyout key.pem -nodes -out cert.pem -days 365
 ```
 
-Then, change your config.local file to include the following lines:
+Then, change your ```config/local.js``` file to include the following lines:
 
 ```JavaScript
 var path = require('path');
@@ -55,32 +55,34 @@ module.exports = {
 
 Start the app and behold the protocol in ```https://localhost:1337```!:
 ```bash
-$ npm run-script lift
+[ramanpreet@localhost Thoughtify-Sails]$ npm run-script start
 
-info: Starting app...
+> Thoughtify-Sails@0.0.0 start /home/ramanpreet/workspace/node/Thoughtify-Sails
+> node app.js
 
-info:
+info: 
 info:                .-..-.
-info:
+info: 
 info:    Sails              <|    .-..-.
 info:    v0.11.0             |\
 info:                       /|.\
 info:                      / || \
 info:                    ,'  |'  \
 info:                 .-'.-==|/_--'
-info:                 `--'-------'
+info:                 `--'-------' 
 info:    __---___--___---___--___---___--___
 info:  ____---___--___---___--___---___--___-__
-info:
+info: 
 info: Server lifted in `/home/ramanpreet/workspace/node/Thoughtify-Sails`
 info: To see your app, visit https://localhost:1337
 info: To shut down Sails, press <CTRL> + C at any time.
 
 debug: --------------------------------------------------------
-debug: :: Thu Mar 05 2015 21:18:01 GMT-0500 (EST)
+debug: :: Thu Mar 05 2015 22:21:21 GMT-0500 (EST)
 
 debug: Environment : development
 debug: Port        : 1337
 debug: --------------------------------------------------------
+
 
 ```
