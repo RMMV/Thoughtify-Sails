@@ -55,6 +55,8 @@ module.exports = {
 
 Start the app and behold the protocol in ```https://localhost:1337```!:
 ```bash
+$ npm run-script lift
+
 info: Starting app...
 
 info:
