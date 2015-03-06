@@ -55,11 +55,6 @@ module.exports = {
 
 Start the app and behold the protocol in ```https://localhost:1337```!:
 ```bash
-[ramanpreet@localhost Thoughtify-Sails]$ npm run-script start
-
-> Thoughtify-Sails@0.0.0 start /home/ramanpreet/workspace/node/Thoughtify-Sails
-> node app.js
-
 info: 
 info:                .-..-.
 info: 
